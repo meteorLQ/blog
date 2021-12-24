@@ -1,4 +1,6 @@
 <template>
+    <Jinrishici />
+
     <div style="padding-top: 10px">
         <div v-for="yearList in data">
             <div class="year">
@@ -19,6 +21,7 @@
 import { useData,withBase } from 'vitepress'
 import { computed } from 'vue'
 import { useYearSort } from '../functions'
+import Jinrishici from "./Jinrishici.vue";
 
 const { theme } = useData()
 const data = computed(() => useYearSort(theme.value.posts))

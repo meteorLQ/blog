@@ -27,6 +27,7 @@
 
 <script lang="ts" setup>
 import { withBase } from 'vitepress'
+import Jinrishici from "./Jinrishici.vue";
 const props = defineProps({
     posts: Array,
     pageCurrent: Number,

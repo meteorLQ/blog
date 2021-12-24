@@ -1,6 +1,6 @@
 ---
 page: true
-title: About
+title: 关于
 description: About me test
 sidebar: false
 ---

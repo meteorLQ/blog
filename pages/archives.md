@@ -1,6 +1,6 @@
 ---
 page: true
-title: Archive
+title: 归档
 description: Archive
 sidebar: false
 ---

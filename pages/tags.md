@@ -1,6 +1,6 @@
 ---
 page: true
-title: Tags
+title: 分类
 description: Tags
 sidebar: false
 ---
