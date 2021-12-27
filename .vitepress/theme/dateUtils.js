@@ -1,5 +1,4 @@
 function formatDate(date, fmt) {
-    debugger
     if (/(y+)/.test(fmt)) {
         fmt = fmt.replace(RegExp.$1, (date.getFullYear() + '').substr(4 - RegExp.$1.length))
     }

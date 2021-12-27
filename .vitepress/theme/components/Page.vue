@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import { withBase } from 'vitepress'
-import Jinrishici from "./Jinrishici.vue";
+
 const props = defineProps({
     posts: Array,
     pageCurrent: Number,
@@ -36,6 +36,7 @@ const props = defineProps({
 </script>
 
 <style scoped>
+
 .list {
     border-bottom: 1px dashed var(--c-divider-light);
     padding: 1rem 0 0 0;

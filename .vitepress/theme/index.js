@@ -7,6 +7,10 @@ import Page from './components/Page.vue'
 import Comment from './components/Comment.vue'
 
 import './custom.css'
+import './styles/vars.css';
+import './styles/layout.css';
+import './styles/code.css';
+import './styles/custom-blocks.css';
 
 export default {
     ...DefaultTheme,
