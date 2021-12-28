@@ -1,4 +1,14 @@
-BigDecimal用于高精度计算，其计算方法有加减乘除
+---
+date: 2021-12-26
+title: BigDecimal用于高精度计算，其计算方法有加减乘除
+tags:
+- vitepress
+- markdown
+description: BigDecimal用于高精度计算，其计算方法有加减乘除
+---
+
+
+# BigDecimal用于高精度计算，其计算方法有加减乘除
 注：在创建BigDecimal对象时，请务必使用new BigDecimal（String num）构造器，否则可能会丢失精度。
 ## 常用方法
 
