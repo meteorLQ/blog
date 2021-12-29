@@ -25,7 +25,7 @@ body {
   left: 0;
   right: 0;
   height: var(--header-height);
-  background-color: var(--header-color);
+  background-color: var(--bg-color);
   border-bottom: 1px solid var(--border-color);
   z-index: 4;
   display: flex;
@@ -40,7 +40,7 @@ body {
   }
 }
 
-.sidebar[data-v-3d6c81f2] {
+.sidebar{
   position: fixed;
   top: 0;
   left: 0;
