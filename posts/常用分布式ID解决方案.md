@@ -4,7 +4,7 @@ title: 分布式id
 tags:
 - vitepress
 - markdown
-  description: 分布式id
+description: 分布式id
 ---
 
 
