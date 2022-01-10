@@ -15,7 +15,7 @@ description: npm的替代工具yarn
 如果你使用此安装程序，需要先安装 [Node.js](https://nodejs.org/)。
 #### 注意
 请将您的项目目录和 Yarn 的缓存目录 (%LocalAppData%\Yarn) 列入杀毒软件的白名单中，否则会因为每次向磁盘写入文件时而被扫描，导致安装软件包变得很慢。
-​
+
 
 > 通过如下命令测试 Yarn 是否安装成功：
 yarn --version
