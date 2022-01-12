@@ -4,9 +4,8 @@ title: 常用分布式ID解决方案
 tags:
 - vitepress
 - markdown
-description: 常用分布式ID解决方案
+  description: 常用分布式ID解决方案
 ---
-
 
 # ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1641348787471-e489ef4f-d7fe-4a71-b8e9-f180300fc113.png#clientId=u16403895-af71-4&crop=0&crop=0&crop=1&crop=1&from=paste&id=u4478e249&margin=%5Bobject%20Object%5D&name=image.png&originHeight=338&originWidth=720&originalType=url&ratio=1&rotation=0&showTitle=false&size=101603&status=done&style=none&taskId=u776fd6e4-2c91-4ec5-a0f7-002f15cf47d&title=)
 
@@ -109,7 +108,7 @@ set @@auto_increment_increment = 2;  -- 步长
 ```
 
  这样他们产生的id就是 1、3、5 。。。 和2、4、6。。。
-
+​
 
 那如果集群后的性能还是扛不住高并发咋办？就要进行MySQL扩容增加节点，这是一个比较麻烦的事。
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1641462942816-49ba5325-223c-4d1d-9dcf-653728d40e92.png#clientId=ud14f2d89-40c9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=249&id=u5addae4e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=412&originWidth=748&originalType=binary&ratio=1&rotation=0&showTitle=false&size=51313&status=done&style=none&taskId=u5425f82f-d763-42b7-a6e3-e67c8a7ff1a&title=&width=452)​
@@ -132,7 +131,7 @@ CREATE TABLE id_generator (
   PRIMARY KEY (`id`)
 ) 
 ```
-
+​
 
 biz_type ：代表不同业务类型
 max_id ：当前最大的可用id
@@ -190,7 +189,7 @@ Snowflake是Twitter开源的分布式id生成算法。Snowflake由64bit的二进
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1641523377646-d307456a-c03e-4353-aa4f-729cf50e7567.png#clientId=ud14f2d89-40c9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=233&id=u03141c11&margin=%5Bobject%20Object%5D&name=image.png&originHeight=242&originWidth=843&originalType=binary&ratio=1&rotation=0&showTitle=false&size=64423&status=done&style=none&taskId=u3f4ed87d-9d6e-4e07-b97a-c9f77e45758&title=&width=810.5)
 Snowflake生成的是Long类型的ID，一个Long类型占8个字节，每个字节占8比特，也就是说一个Long类型占64个比特。
 Snowflake ID组成结构：正数位（占1比特）+ 时间戳（占41比特）+ 机器ID（占5比特）+ 数据中心（占5比特）+ 自增值（占12比特），总共64比特组成的一个Long类型。
-
+​
 
 
 - **第 0 位**： 符号位（标识正负），始终为 0，没有用，不用管。
@@ -203,9 +202,135 @@ Snowflake ID组成结构：正数位（占1比特）+ 时间戳（占41比特）
 ### 缺点：
 
 - 需要解决重复 ID 问题（依赖时间，当机器时间不对的情况下，可能导致会产生重复 ID）。
+```java
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+
+/**
+ * twitter的snowflake算法 -- java实现
+ *
+ * @author beyond
+ * @date 2016/11/26
+ */
+public class SnowFlake {
+
+    /**
+     * 起始的时间戳
+     */
+    private final static long START_STMP = 1288834974657L;
+
+    /**
+     * 每一部分占用的位数
+     */
+    private final static long SEQUENCE_BIT = 12; //序列号占用的位数
+    private final static long MACHINE_BIT = 5;   //机器标识占用的位数
+    private final static long DATACENTER_BIT = 5;//数据中心占用的位数
+
+    /**
+     * 每一部分的最大值
+     */
+    private final static long MAX_DATACENTER_NUM = -1L ^ (-1L << DATACENTER_BIT);
+    private final static long MAX_MACHINE_NUM = -1L ^ (-1L << MACHINE_BIT);
+    private final static long MAX_SEQUENCE = -1L ^ (-1L << SEQUENCE_BIT);
+
+    /**
+     * 每一部分向左的位移
+     */
+    private final static long MACHINE_LEFT = SEQUENCE_BIT;
+    private final static long DATACENTER_LEFT = SEQUENCE_BIT + MACHINE_BIT;
+    private final static long TIMESTMP_LEFT = DATACENTER_LEFT + DATACENTER_BIT;
+
+    private long datacenterId;  //数据中心
+    private long machineId;     //机器标识
+    private long sequence = 0L; //序列号
+    private long lastStmp = -1L;//上一次时间戳
+
+    private static final Random RANDOM = new Random();
 
 
+    public SnowFlake(long datacenterId, long machineId) {
+        if (datacenterId > MAX_DATACENTER_NUM || datacenterId < 0) {
+            throw new IllegalArgumentException("datacenterId can't be greater than MAX_DATACENTER_NUM or less than 0");
+        }
+        if (machineId > MAX_MACHINE_NUM || machineId < 0) {
+            throw new IllegalArgumentException("machineId can't be greater than MAX_MACHINE_NUM or less than 0");
+        }
+        this.datacenterId = datacenterId;
+        this.machineId = machineId;
+    }
 
+    /**
+     * 产生下一个ID
+     *
+     * @return
+     */
+    public synchronized long nextId() {
+        long currStmp = getNewstmp();
+        // 解决时间回拨问题
+        if (currStmp < lastStmp) {
+            long offset = lastStmp - currStmp;
+            if (offset <= 5) {
+                try {
+                    //时间偏差大小小于5ms，则等待两倍时间
+                    wait(offset << 1);
+                    currStmp = getNewstmp();
+                    if (currStmp < lastStmp) {
+                        //还是小于，抛异常并上报
+                        throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
+                    }
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
+                }
+            } else {
+                throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
+
+            }
+        }
+
+        if (currStmp == lastStmp) {
+            //相同毫秒内，序列号自增
+            sequence = (sequence + 1) & MAX_SEQUENCE;
+            //同一毫秒的序列数已经达到最大
+            if (sequence == 0L) {
+                // 序列号生成添加随机源，会稍微减少同一个毫秒内能产生的最大ID数量。
+                sequence=RANDOM.nextInt(100);
+                currStmp = getNextMill();
+            }
+        } else {
+            //序列号生成添加随机源，会稍微减少同一个毫秒内能产生的最大ID数量。
+            sequence = ThreadLocalRandom.current().nextLong(1L, 3L);;;
+        }
+
+        lastStmp = currStmp;
+
+        return (currStmp - START_STMP) << TIMESTMP_LEFT //时间戳部分
+                | datacenterId << DATACENTER_LEFT       //数据中心部分
+                | machineId << MACHINE_LEFT             //机器标识部分
+                | sequence;                             //序列号部分
+    }
+
+    private long getNextMill() {
+        long mill = getNewstmp();
+        while (mill <= lastStmp) {
+            mill = getNewstmp();
+        }
+        return mill;
+    }
+
+    private long getNewstmp() {
+        return System.currentTimeMillis();
+    }
+
+    public static void main(String[] args) {
+        SnowFlake snowFlake = new SnowFlake(1, 1);
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(snowFlake.nextId());
+        }
+
+    }
+}
+```
 ## 8、百度（uid-generator）
 uid-generator是由百度技术部开发
 uid-generator是基于Snowflake算法实现的，与原始的snowflake算法不同在于，uid-generator支持自定义时间戳、工作机器ID和 序列号 等各部分的位数，而且uid-generator中采用用户自定义workId的生成策略。
@@ -218,8 +343,6 @@ workId，占用了22个bit位，时间占用了28个bit位，序列化占用了1
 [Leaf](https://github.com/Meituan-Dianping/Leaf)由美团开发
 
  Leaf 提供了 **号段模式** 和 **Snowflake(雪花算法)** 这两种模式来生成分布式 ID。并且，它支持双号段，还解决了雪花 ID 系统时钟回拨问题。不过，时钟问题的解决需要弱依赖于 Zookeeper 。
-
-
 
 
 ## 10、滴滴（Tinyid）
