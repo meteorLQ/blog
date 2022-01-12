@@ -86,13 +86,13 @@ insert into SEQUENCE_ID(value)  VALUES ('values');
 - 无法支持高并发
 - 安全问题（可能通过id规律推测数据），增加数据库压力
 ## 3、基于数据库集群模式
-​
+
 
 将上面的单机数据库更换为集群模式，变成主从模式集群。如何一个主节点宕机，可以变成双主模式集群，也就是说可以有两个节点生成id。
-​
+
 
 如果两个节点都从1开始，会产生重复的id？
-​
+
 
 解决方案：设置初始值和自增步长
 MySQL_1 配置：
@@ -108,7 +108,7 @@ set @@auto_increment_increment = 2;  -- 步长
 ```
 
  这样他们产生的id就是 1、3、5 。。。 和2、4、6。。。
-​
+
 
 那如果集群后的性能还是扛不住高并发咋办？就要进行MySQL扩容增加节点，这是一个比较麻烦的事。
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1641462942816-49ba5325-223c-4d1d-9dcf-653728d40e92.png#clientId=ud14f2d89-40c9-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=249&id=u5addae4e&margin=%5Bobject%20Object%5D&name=image.png&originHeight=412&originWidth=748&originalType=binary&ratio=1&rotation=0&showTitle=false&size=51313&status=done&style=none&taskId=u5425f82f-d763-42b7-a6e3-e67c8a7ff1a&title=&width=452)​
@@ -131,7 +131,7 @@ CREATE TABLE id_generator (
   PRIMARY KEY (`id`)
 ) 
 ```
-​
+
 
 biz_type ：代表不同业务类型
 max_id ：当前最大的可用id
