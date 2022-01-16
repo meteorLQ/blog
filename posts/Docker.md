@@ -4,7 +4,7 @@ title: Docker
 tags:
 - vitepress
 - markdown
-  description: Docker
+  description: Dokcer镜像就是一个只读的模版
 ---
 
 
