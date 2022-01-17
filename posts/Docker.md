@@ -132,3 +132,6 @@ docker export 容器id > 名称.tar
 导入容器
 cat 文件名.tar|docker import - 镜像用户/镜像名:镜像版本号
 ```
+
+
+
