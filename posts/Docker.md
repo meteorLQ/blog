@@ -8,6 +8,9 @@ tags:
 ---
 
 
+
+
+
 # Docker 的基本组成
 **镜像（image）**
 Dokcer镜像就是一个只读的模版。镜像可以用来创建Docker容器，一个镜像可以创建很多容器。
@@ -131,7 +134,262 @@ docker export 容器id > 名称.tar
 
 导入容器
 cat 文件名.tar|docker import - 镜像用户/镜像名:镜像版本号
+
+提交镜像
+docker commit -m="提交的描述信息" -a=“作者” 容器id 要创建的目标镜像名:[标签名]
+```
+## 容器数据卷
+卷就是目录或文件，存在于一个或多个容器中，由**docker**挂载到容器，但不属于联合文件系统，因此能够绕过Union file system提供但一些用于持续存储或共享数据但特性：
+卷但设计目的就是数据的持久化，完全独立于容器的生存周期，因此Docker不会在容器删除时删除其挂载的数据卷。
+
+
+```dockerfile
+目录挂载命令
+docker run --privileged=true -v 宿主机目录：容器内目录 镜像id
 ```
 
 
+**查看是否挂载成功**
+```dockerfile
+docker inspect 容器id
+```
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642131142641-0a50dba0-b040-4e76-a950-596aa6a3c92a.png#clientId=u770d0cbd-2984-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=192&id=uea772943&margin=%5Bobject%20Object%5D&name=image.png&originHeight=384&originWidth=1146&originalType=binary&ratio=1&rotation=0&showTitle=false&size=147868&status=done&style=none&taskId=u60178011-c697-4315-bc0b-c66eeb0d2bb&title=&width=573)
+
+
+**挂载目录权限**
+**默认情况下挂载目录和容器目录是rw**
+```dockerfile
+docker run --privileged=true -v 宿主机目录：容器内目录：rw 镜像id
+```
+**容器实例内部被限制，不能写，只能读**
+```dockerfile
+docker run --privileged=true -v 宿主机目录：容器内目录：ro 镜像id
+```
+**容器之间路径的继承和共享**
+```dockerfile
+docker run --privileged=true --volumes-from 父容器id --name 重命名 镜像id
+```
+# docker安装MySQL
+
+
+> **docker run -d -p 3306:3306 --name mysql1 -v /d/DevEnv/mysql/conf:/etc/mysql/conf.d -v /d/DevEnv/mysql/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456  mysql:8.0.26**
+> ​
+
+> ​
+
+> docker run -p 3306:3306 --name mysql2 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.26
+> docker run mysql1 -p 3306:3306
+> ​
+
+> ​
+
+> ​
+
+> 启动（m1芯片暂无msql版本镜像，所以使用mysql-server）
+> ​
+
+> docker run -d -p 3306:3306 --name mysql1 -v /Users/liqiang/devins/mysql/conf:/etc/mysql/conf.d -v /Users/liqiang/devins/mysql/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456  mysql/mysql-server
+> ​
+
+> **进入容器**
+> **docker exec -it mysql bash**
+> ​
+
+> **登陆mysql**
+> **mysql -u root -p**
+> ​
+
+> grant all on *.*  to 'root'@'%';
+> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+> ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
+> ​
+
+> **设置用户远程登录**
+> ​
+
+> 使用mysql
+> use mysql
+> 修改密码：
+> ALTER USER 'root'@'localhost' IDENTIFIED  BY '123456';
+> 修改ip为所有可访问
+> update user set host='%' where user='root';
+> 查看
+> select host,user from user;
+> 刷新
+> flush privileges;
+
+## 基于docker的mysql主从复制
+```dockerfile
+docker run -d -p 3307:3306 --name mysql-master -v /Users/liqiang/devins/mysql-master/conf:/etc/mysql -v /Users/liqiang/devins/mysql-master/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456  mysql/mysql-server
+```
+**master配置**
+```dockerfile
+[mysqld]
+# 设置server_id
+server_id=101
+#
+binlog-ignore-db=mysql
+#
+log-bin=mall-mysql-bin
+#
+binlog_cache_size=1M
+#
+binlog_format=mixed
+#
+expire_logs_days=7
+#
+slave_skip_errors=1062
+```
+​
+
+​
+
+​
+
+# docker安装redis
+> docker exec -it myredis redis-cli  连接redis客户端
+> ​
+
+> ​
+
+> ​
+
+> docker run -d -p 6379:6379 -v /Users/lq/devinstall/myredis/conf:/usr/local/etc/redis -v /Users/lq/devinstall/myredis/data:/data --name myredis redis:6.2.6 redis-server /usr/local/etc/redis/redis.conf
+
+
+
+## docker redis集群安装（伪集群）
+**​**
+
+**启动六台redis**
+```dockerfile
+docker run -d --name redis-node1 -v /Users/liqiang/devins/redis/data/node1:/data -p 6381:6381 -p 16381:16381 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6381 
+docker run -d --name redis-node2 -v /Users/liqiang/devins/redis/data/node2:/data -p 6382:6382 -p 16382:16382 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6382 
+docker run -d --name redis-node3 -v /Users/liqiang/devins/redis/data/node3:/data -p 6383:6383 -p 16383:16383 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6383 
+docker run -d --name redis-node4 -v /Users/liqiang/devins/redis/data/node4:/data -p 6384:6384 -p 16384:16384 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6384 
+docker run -d --name redis-node5 -v /Users/liqiang/devins/redis/data/node5:/data -p 6385:6385 -p 16385:16385 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6385 
+docker run -d --name redis-node6 -v /Users/liqiang/devins/redis/data/node6:/data -p 6386:6386 -p 16386:16386 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6386 
+```
+集群关联
+注意：进入docker容器后才能执行以下命令，且注意自己的真实IP地址
+```dockerfile
+redis-cli --cluster create 192.168.0.120:6381 192.168.0.120:6382 192.168.0.120:6383 192.168.0.120:6384 192.168.0.120:6385 192.168.0.120:6386 --cluster-replicas 1
+```
+--cluster-replicas 1表示每个master创建一个slave节点
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642344498422-c54f41d2-65eb-4f5b-8dfd-dfba71486d07.png#clientId=u770d0cbd-2984-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=907&id=ubb38487b&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1814&originWidth=1172&originalType=binary&ratio=1&rotation=0&showTitle=false&size=1077855&status=done&style=none&taskId=udb7414cc-8e5e-4a71-b35d-debd7972f62&title=&width=586)
+
+
+查看集群信息
+```dockerfile
+cluster info
+```
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642490303533-2d59bc96-dcbe-46c1-a07a-d4893acca2d8.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=305&id=ua1a523a5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=610&originWidth=784&originalType=binary&ratio=1&rotation=0&showTitle=false&size=282354&status=done&style=none&taskId=ucfcd7a2f-0c2b-4123-9172-2c95b42488b&title=&width=392)
+​
+
+查看集群节点情况
+```dockerfile
+cluster nodes
+```
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642490337594-05550568-aa0a-4114-b6c3-3ce391176b58.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=130&id=u4b65d431&margin=%5Bobject%20Object%5D&name=image.png&originHeight=260&originWidth=2492&originalType=binary&ratio=1&rotation=0&showTitle=false&size=385098&status=done&style=none&taskId=u65b27f1f-b60a-4eb5-8d20-706a815d51f&title=&width=1246)
+**使用客户端连接redis时，请使用redis-cli -p 6381 -c**
+**加入-c参数，优化路由**
+​
+
+查看集群详细信息
+```dockerfile
+redis-cli --cluster check 192.168.0.120:6381
+```
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642491878425-0eb02be6-5cfd-412c-b878-eb9cdac58d9d.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=517&id=u46d0ffc8&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1034&originWidth=1256&originalType=binary&ratio=1&rotation=0&showTitle=false&size=729144&status=done&style=none&taskId=u022f5d52-0f1a-42ce-aad2-4ae63d82581&title=&width=628)
+
+
+
+
+**集群扩容**
+将新节点加入集群
+```dockerfile
+redis-cli --cluster add-node ip地址:6387 ip地址:6381
+```
+6387就是将要作为master新增节点
+6381就是原来集群节点里面点主节点
+​
+
+**重新分派槽号**
+```dockerfile
+redis-cli --cluster reshard 192.168.0.120:6381
+```
+**重新挂载从节点**
+```dockerfile
+redis-cli --cluster add-node 新slaveip地址:6387 新masterip地址:6381 --cluster-slave --cluster-master-id 新主机节点id
+
+redis-cli --cluster add-node 192.168.0.120:6388 192.168.0.120:6387 --cluster-slave --cluster-master-id bac9cc96b59c91d785acdbceeec6f75e71318738
+```
+集群索容
+​
+
+先删除从机
+```dockerfile
+redis-cli --cluster del-node ip地址:端口 节点id
+```
+重新分配槽号
+```dockerfile
+redis-cli --cluster reshard 192.168.0.120:6381
+```
+删除主节点
+​
+
+```dockerfile
+redis-cli --cluster del-node ip地址:端口 节点id
+```
+​
+
+坑1:**--net hos**
+**MacOS和docker网络交互，不支持host模式（--net host），需要使用默认的bridge模式（使用-p映射端口）**
+坑2:**Waiting for the cluster to join **
+redis-cli --cluster create环节，一直卡到"Waiting for the cluster to join”环节。
+Redis集群中的各个节点，需要开放一个端口，同其他节点建立连接，用于接收心跳数据等操作。也就是说，redis-node1节点，开放6379端口供client连接时，同时提供16379端口(10000 + 6379)，供其他Redis节点连接。
+
+集群初始化过程中，需要同其他Redis建立连接，进行通信。若节点间无法连接，此时会阻塞，这也就是一直阻塞到"Waiting for the cluster to join"环节的原因。
+
+官方通过--net=host，指定网络类型为host，使得容器与宿主机使用同一网络，从而规避了这类问题。
+当然，若不想修改容器网络类型的话，则，需要同时暴露两个端口，用于提供client和其他节点
+![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642344952745-9fd6bfea-3693-4c02-904b-1ead46e751da.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=249&id=u966e6ca3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=1848&originalType=binary&ratio=1&rotation=0&showTitle=false&size=124779&status=done&style=none&taskId=ud5460791-20c6-4072-a4a4-6501031f2d6&title=&width=924)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+​
 
