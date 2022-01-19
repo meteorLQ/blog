@@ -173,39 +173,27 @@ docker run --privileged=true --volumes-from 父容器id --name 重命名 镜像i
 
 
 > **docker run -d -p 3306:3306 --name mysql1 -v /d/DevEnv/mysql/conf:/etc/mysql/conf.d -v /d/DevEnv/mysql/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456  mysql:8.0.26**
-> ​
 
-> ​
 
 > docker run -p 3306:3306 --name mysql2 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.26
 > docker run mysql1 -p 3306:3306
-> ​
 
-> ​
-
-> ​
 
 > 启动（m1芯片暂无msql版本镜像，所以使用mysql-server）
-> ​
 
 > docker run -d -p 3306:3306 --name mysql1 -v /Users/liqiang/devins/mysql/conf:/etc/mysql/conf.d -v /Users/liqiang/devins/mysql/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456  mysql/mysql-server
-> ​
 
 > **进入容器**
 > **docker exec -it mysql bash**
-> ​
 
 > **登陆mysql**
 > **mysql -u root -p**
-> ​
 
 > grant all on *.*  to 'root'@'%';
 > GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
 > ALTER USER 'root'@'%' IDENTIFIED WITH mysql_native_password BY '123456';
-> ​
 
 > **设置用户远程登录**
-> ​
 
 > 使用mysql
 > use mysql
@@ -240,26 +228,18 @@ expire_logs_days=7
 #
 slave_skip_errors=1062
 ```
-​
 
-​
-
-​
 
 # docker安装redis
 > docker exec -it myredis redis-cli  连接redis客户端
-> ​
 
-> ​
-
-> ​
 
 > docker run -d -p 6379:6379 -v /Users/lq/devinstall/myredis/conf:/usr/local/etc/redis -v /Users/lq/devinstall/myredis/data:/data --name myredis redis:6.2.6 redis-server /usr/local/etc/redis/redis.conf
 
 
 
 ## docker redis集群安装（伪集群）
-**​**
+****
 
 **启动六台redis**
 ```dockerfile
@@ -284,7 +264,7 @@ redis-cli --cluster create 192.168.0.120:6381 192.168.0.120:6382 192.168.0.120:6
 cluster info
 ```
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642490303533-2d59bc96-dcbe-46c1-a07a-d4893acca2d8.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=305&id=ua1a523a5&margin=%5Bobject%20Object%5D&name=image.png&originHeight=610&originWidth=784&originalType=binary&ratio=1&rotation=0&showTitle=false&size=282354&status=done&style=none&taskId=ucfcd7a2f-0c2b-4123-9172-2c95b42488b&title=&width=392)
-​
+
 
 查看集群节点情况
 ```dockerfile
@@ -293,7 +273,7 @@ cluster nodes
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642490337594-05550568-aa0a-4114-b6c3-3ce391176b58.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=130&id=u4b65d431&margin=%5Bobject%20Object%5D&name=image.png&originHeight=260&originWidth=2492&originalType=binary&ratio=1&rotation=0&showTitle=false&size=385098&status=done&style=none&taskId=u65b27f1f-b60a-4eb5-8d20-706a815d51f&title=&width=1246)
 **使用客户端连接redis时，请使用redis-cli -p 6381 -c**
 **加入-c参数，优化路由**
-​
+
 
 查看集群详细信息
 ```dockerfile
@@ -324,7 +304,7 @@ redis-cli --cluster add-node 新slaveip地址:6387 新masterip地址:6381 --clus
 redis-cli --cluster add-node 192.168.0.120:6388 192.168.0.120:6387 --cluster-slave --cluster-master-id bac9cc96b59c91d785acdbceeec6f75e71318738
 ```
 集群索容
-​
+
 
 先删除从机
 ```dockerfile
@@ -335,12 +315,12 @@ redis-cli --cluster del-node ip地址:端口 节点id
 redis-cli --cluster reshard 192.168.0.120:6381
 ```
 删除主节点
-​
+
 
 ```dockerfile
 redis-cli --cluster del-node ip地址:端口 节点id
 ```
-​
+
 
 坑1:**--net hos**
 **MacOS和docker网络交互，不支持host模式（--net host），需要使用默认的bridge模式（使用-p映射端口）**
@@ -353,43 +333,3 @@ Redis集群中的各个节点，需要开放一个端口，同其他节点建立
 官方通过--net=host，指定网络类型为host，使得容器与宿主机使用同一网络，从而规避了这类问题。
 当然，若不想修改容器网络类型的话，则，需要同时暴露两个端口，用于提供client和其他节点
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642344952745-9fd6bfea-3693-4c02-904b-1ead46e751da.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=249&id=u966e6ca3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=1848&originalType=binary&ratio=1&rotation=0&showTitle=false&size=124779&status=done&style=none&taskId=ud5460791-20c6-4072-a4a4-6501031f2d6&title=&width=924)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-​
-
