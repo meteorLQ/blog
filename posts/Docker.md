@@ -7,10 +7,6 @@ tags:
   description: Dokcer镜像就是一个只读的模版
 ---
 
-
-
-
-
 # Docker 的基本组成
 **镜像（image）**
 Dokcer镜像就是一个只读的模版。镜像可以用来创建Docker容器，一个镜像可以创建很多容器。
