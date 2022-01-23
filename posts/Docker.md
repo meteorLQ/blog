@@ -331,3 +331,4 @@ Redis集群中的各个节点，需要开放一个端口，同其他节点建立
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1642344952745-9fd6bfea-3693-4c02-904b-1ead46e751da.png#clientId=ua11cf2b8-2d2c-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=249&id=u966e6ca3&margin=%5Bobject%20Object%5D&name=image.png&originHeight=498&originWidth=1848&originalType=binary&ratio=1&rotation=0&showTitle=false&size=124779&status=done&style=none&taskId=ud5460791-20c6-4072-a4a4-6501031f2d6&title=&width=924)
 
 
+
