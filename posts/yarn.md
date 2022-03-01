@@ -1,5 +1,5 @@
 ---
-date: 2022-01-10
+date: 2022-01-03
 title: npm的替代工具yarn
 tags:
 - vitepress

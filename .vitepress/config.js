@@ -1,7 +1,7 @@
 const { getPosts, generatePaginationPages } = require('./theme/serverUtils')
 
 async function config() {
-    const pageSize = 2
+    const pageSize = 10
     await generatePaginationPages(pageSize)
     return {
         title: '时刻准备着',
