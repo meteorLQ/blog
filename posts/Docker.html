@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Docker | 时刻准备着</title>
+    <meta name="description" content="vitepress,blog,blog-theme">
+    <link rel="stylesheet" href="/blog/assets/style.9243fa93.css">
+    <link rel="modulepreload" href="/blog/assets/Home.f0e82917.js">
+    <link rel="modulepreload" href="/blog/assets/app.4429b66a.js">
+    <link rel="modulepreload" href="/blog/assets/posts_Docker.md.3c4fcaeb.lean.js">
+    
+    <meta name="twitter:title" content="Docker | 时刻准备着">
+  <meta property="og:title" content="Docker | 时刻准备着">
+  </head>
+  <body>
+    <div id="app"><!--[--><div id="cssid" class="theme" data-v-3eaa5914><!--[--><div class="theme"><header class="nav-bar" data-v-40587210><div class="sidebar-button" data-v-40587210><svg class="icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z" class></path></svg></div><a class="nav-bar-title" href="/blog/" aria-label="时刻准备着, back to home" data-v-40587210 data-v-7ac13a1e><!----> 时刻准备着</a><div class="flex-grow" data-v-40587210></div><div class="nav" data-v-40587210><nav class="nav-links" data-v-40587210 data-v-35b91e7e><!--[--><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/" data-v-49fe041d>主页 <!----></a></div></div><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/pages/archives" data-v-49fe041d>归档 <!----></a></div></div><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/pages/tags" data-v-49fe041d>分类 <!----></a></div></div><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/pages/about" data-v-49fe041d>关于 <!----></a></div></div><!--]--><!----><!----></nav></div><!--[--><!--]--></header><aside class="sidebar" data-v-17c48e2f><nav class="nav-links nav" data-v-17c48e2f data-v-35b91e7e><!--[--><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/" data-v-49fe041d>主页 <!----></a></div></div><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/pages/archives" data-v-49fe041d>归档 <!----></a></div></div><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/pages/tags" data-v-49fe041d>分类 <!----></a></div></div><div class="item" data-v-35b91e7e><div class="nav-link" data-v-35b91e7e data-v-49fe041d><a class="item" href="/blog/pages/about" data-v-49fe041d>关于 <!----></a></div></div><!--]--><!----><!----></nav><!--[--><!--]--><ul class="sidebar-links" data-v-17c48e2f><!--[--><li class="sidebar-link"><a class="sidebar-link-item" href="#帮助启动类命令">帮助启动类命令</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="#镜像命令">镜像命令</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="#容器命令">容器命令</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="#容器数据卷">容器数据卷</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="#基于docker的mysql主从复制">基于docker的mysql主从复制</a><!----></li><li class="sidebar-link"><a class="sidebar-link-item" href="#docker-redis集群安装（伪集群）">docker redis集群安装（伪集群）</a><!----></li><!--]--></ul><!--[--><!--]--></aside><div class="sidebar-mask"></div><main class="page" data-v-8fcebc32><div class="container" data-v-8fcebc32><!--[--><!--]--><div style="position:relative;" class="content" data-v-8fcebc32><div><h1 id="docker-的基本组成" tabindex="-1">Docker 的基本组成 <a class="header-anchor" href="#docker-的基本组成" aria-hidden="true">#</a></h1><p><strong>镜像（image）</strong> Dokcer镜像就是一个只读的模版。镜像可以用来创建Docker容器，一个镜像可以创建很多容器。 它相当于一个root文件系统。比如官方镜像centos：7就包含了完整的一套centos:7最小系统的root文件系统。 相当于容器的“源代码”，docker镜像文件类似于Java的类模版，而dokcer容器实例类似于java中new出来的实例对象。 <strong>容器（container）</strong> Docker利用容器独立运行的一个或一组应用，应用程序或服务运行在容器里面，容器就类似于一个虚拟化的运行环境，容器是用镜像创建的运行示例。就像是Java中的类和实例对象一样，镜像是静态的定义，容器是镜像运行时的实体。容器为镜像提供例一个标准的和隔离的运行环境，它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台 可以把容器看做是一个简易版的Linux环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。 <strong>仓库（repository）</strong> 集中存放镜像文件的场所 仓库分为公共仓库和私有仓库 全球最大的公共仓库是docker hub</p><h1 id="docker命令" tabindex="-1">docker命令 <a class="header-anchor" href="#docker命令" aria-hidden="true">#</a></h1><h2 id="帮助启动类命令" tabindex="-1">帮助启动类命令 <a class="header-anchor" href="#帮助启动类命令" aria-hidden="true">#</a></h2><div class="language-java"><pre><code><span class="token comment">//启动docker</span>
+systemctl start docker
+<span class="token comment">//停止docker</span>
+systemctl stop docker
+<span class="token comment">//重启docker</span>
+systemctl restart docker
+<span class="token comment">//查看docker状态</span>
+systemctl status docker
+<span class="token comment">//开机启动</span>
+systemctl enable docker
+<span class="token comment">//查看docker概要信息</span>
+docker info
+<span class="token comment">//查看docker总体帮助文档</span>
+docker <span class="token operator">--</span>help
+<span class="token comment">//查看docker命令帮助文档</span>
+docker 【命令】<span class="token operator">--</span>help
+
+</code></pre></div><h2 id="镜像命令" tabindex="-1">镜像命令 <a class="header-anchor" href="#镜像命令" aria-hidden="true">#</a></h2><div class="language-dockerfile"><pre><code>//查询本机全部镜像
+docker images
+</code></pre></div><p><img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1641965580913-42f97d71-0072-4894-89e8-ac430c25db03.png#clientId=u770d0cbd-2984-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=drop&amp;id=u8614c81a&amp;margin=%5Bobject%20Object%5D&amp;name=%E6%88%AA%E5%B1%8F2022-01-12%20%E4%B8%8B%E5%8D%881.32.53.png&amp;originHeight=222&amp;originWidth=1316&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=175517&amp;status=done&amp;style=none&amp;taskId=u2e96953a-1301-45fc-97c0-9ba14c0cb89&amp;title=" alt="截屏2022-01-12 下午1.32.53.png"></p><div class="language-dockerfile"><pre><code>//搜索镜像
+docker search 镜像名称
+//拉取镜像
+docker pull 镜像名称:tag
+</code></pre></div><div class="language-dockerfile"><pre><code>查看镜像/容器/数据卷所占的空间
+docker system df
+</code></pre></div><p><img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1641974516929-d8dcd8ea-f54f-4ee4-9868-78009ea2c482.png#clientId=u770d0cbd-2984-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=drop&amp;id=u82e13b6a&amp;margin=%5Bobject%20Object%5D&amp;name=%E6%88%AA%E5%B1%8F2022-01-12%20%E4%B8%8B%E5%8D%884.01.36.png&amp;originHeight=222&amp;originWidth=1316&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=143392&amp;status=done&amp;style=none&amp;taskId=u545c6dfc-c199-4784-9de2-81abf509767&amp;title=" alt="截屏2022-01-12 下午4.01.36.png"></p><div class="language-dockerfile"><pre><code>//删除镜像
+docker rmi 镜像id或名称
+//强制删除
+docker rmi -f 镜像id或名称
+//删除全部镜像
+docker rmi -f $(docker images -qa)
+</code></pre></div><h2 id="容器命令" tabindex="-1">容器命令 <a class="header-anchor" href="#容器命令" aria-hidden="true">#</a></h2><div class="language-dockerfile"><pre><code>运行容器
+docker run 【options】image 【command】【arg】
+
+options说明
+--name=&quot;容器新名字&quot; 为容器指定一个名称
+-d 后台运行容器并返回容器ID，也即启动守护式容器（后台运行）
+-i 以交互模式运行容器，通常与-t同时使用
+-t 为容器重新分配一个伪输入终端，通常与-i同时使用
+-P 随机指定端口 大写P
+-p 指定端口 小写p
+
+列出运行中的容器
+docker ps
+
+列出全部运行的容器
+docker ps -a
+
+显示最近创建的容器
+docker ps -l
+
+退出容器
+exit 退出，容器停止
+ctrl+p+q退出，容器不停止
+
+启动容器
+docker start 容器名称或id
+
+停止容器
+docker stop 容器名称或id
+
+重启容器
+docker restart 容器名称或id
+
+强制停止容器
+docker kill 容器名称或id
+
+删除容器
+docker rm 容器名称或id
+
+强制删除容器
+docker rm -f 容器名称或id
+
+查看容器日志
+docker logs 容器名称或id
+
+查看容器内运行的进程
+docker top 容器id或名称
+
+查看容器内部细节
+docker inspect 容器id
+
+进入运行中容器内部
+docker exec -it 容器id或名称/bin/bash
+docker attach 容器id（exit退出会停止容器，不建议使用）
+
+容器内文件拷贝到主机
+docker cp 容器id:容器内路径 目标路径
+
+导出容器
+docker export 容器id &gt; 名称.tar
+
+导入容器
+cat 文件名.tar|docker import - 镜像用户/镜像名:镜像版本号
+
+提交镜像
+docker commit -m=&quot;提交的描述信息&quot; -a=“作者” 容器id 要创建的目标镜像名:[标签名]
+</code></pre></div><h2 id="容器数据卷" tabindex="-1">容器数据卷 <a class="header-anchor" href="#容器数据卷" aria-hidden="true">#</a></h2><p>卷就是目录或文件，存在于一个或多个容器中，由<strong>docker</strong>挂载到容器，但不属于联合文件系统，因此能够绕过Union file system提供但一些用于持续存储或共享数据但特性： 卷但设计目的就是数据的持久化，完全独立于容器的生存周期，因此Docker不会在容器删除时删除其挂载的数据卷。</p><div class="language-dockerfile"><pre><code>目录挂载命令
+docker run --privileged=true -v 宿主机目录：容器内目录 镜像id
+</code></pre></div><p><strong>查看是否挂载成功</strong></p><div class="language-dockerfile"><pre><code>docker inspect 容器id
+</code></pre></div><p><img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1642131142641-0a50dba0-b040-4e76-a950-596aa6a3c92a.png#clientId=u770d0cbd-2984-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=192&amp;id=uea772943&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=384&amp;originWidth=1146&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=147868&amp;status=done&amp;style=none&amp;taskId=u60178011-c697-4315-bc0b-c66eeb0d2bb&amp;title=&amp;width=573" alt="image.png"></p><p><strong>挂载目录权限</strong><strong>默认情况下挂载目录和容器目录是rw</strong></p><div class="language-dockerfile"><pre><code>docker run --privileged=true -v 宿主机目录：容器内目录：rw 镜像id
+</code></pre></div><p><strong>容器实例内部被限制，不能写，只能读</strong></p><div class="language-dockerfile"><pre><code>docker run --privileged=true -v 宿主机目录：容器内目录：ro 镜像id
+</code></pre></div><p><strong>容器之间路径的继承和共享</strong></p><div class="language-dockerfile"><pre><code>docker run --privileged=true --volumes-from 父容器id --name 重命名 镜像id
+</code></pre></div><h1 id="docker安装mysql" tabindex="-1">docker安装MySQL <a class="header-anchor" href="#docker安装mysql" aria-hidden="true">#</a></h1><blockquote><p><strong>docker run -d -p 3306:3306 --name mysql1 -v /d/DevEnv/mysql/conf:/etc/mysql/conf.d -v /d/DevEnv/mysql/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql:8.0.26</strong></p></blockquote><blockquote><p>docker run -p 3306:3306 --name mysql2 -e MYSQL_ROOT_PASSWORD=123456 -d mysql:8.0.26 docker run mysql1 -p 3306:3306</p></blockquote><blockquote><p>启动（m1芯片暂无msql版本镜像，所以使用mysql-server）</p></blockquote><blockquote><p>docker run -d -p 3306:3306 --name mysql1 -v /Users/liqiang/devins/mysql/conf:/etc/mysql/conf.d -v /Users/liqiang/devins/mysql/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql/mysql-server</p></blockquote><blockquote><p><strong>进入容器</strong><strong>docker exec -it mysql bash</strong></p></blockquote><blockquote><p><strong>登陆mysql</strong><strong>mysql -u root -p</strong></p></blockquote><blockquote><p>grant all on <em>.</em> to &#39;root&#39;@&#39;%&#39;; GRANT ALL PRIVILEGES ON <em>.</em> TO &#39;root&#39;@&#39;%&#39; IDENTIFIED BY &#39;123456&#39; WITH GRANT OPTION; ALTER USER &#39;root&#39;@&#39;%&#39; IDENTIFIED WITH mysql_native_password BY &#39;123456&#39;;</p></blockquote><blockquote><p><strong>设置用户远程登录</strong></p></blockquote><blockquote><p>使用mysql use mysql 修改密码： ALTER USER &#39;root&#39;@&#39;localhost&#39; IDENTIFIED BY &#39;123456&#39;; 修改ip为所有可访问 update user set host=&#39;%&#39; where user=&#39;root&#39;; 查看 select host,user from user; 刷新 flush privileges;</p></blockquote><h2 id="基于docker的mysql主从复制" tabindex="-1">基于docker的mysql主从复制 <a class="header-anchor" href="#基于docker的mysql主从复制" aria-hidden="true">#</a></h2><div class="language-dockerfile"><pre><code>docker run -d -p 3307:3306 --name mysql-master -v /Users/liqiang/devins/mysql-master/conf:/etc/mysql -v /Users/liqiang/devins/mysql-master/datadir:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456  mysql/mysql-server
+</code></pre></div><p><strong>master配置</strong></p><div class="language-dockerfile"><pre><code>[mysqld]
+<span class="token comment"># 设置server_id</span>
+server_id=101
+<span class="token comment">#</span>
+binlog-ignore-db=mysql
+<span class="token comment">#</span>
+log-bin=mall-mysql-bin
+<span class="token comment">#</span>
+binlog_cache_size=1M
+<span class="token comment">#</span>
+binlog_format=mixed
+<span class="token comment">#</span>
+expire_logs_days=7
+<span class="token comment">#</span>
+slave_skip_errors=1062
+</code></pre></div><h1 id="docker安装redis" tabindex="-1">docker安装redis <a class="header-anchor" href="#docker安装redis" aria-hidden="true">#</a></h1><blockquote><p>docker exec -it myredis redis-cli 连接redis客户端</p></blockquote><blockquote><p>docker run -d -p 6379:6379 -v /Users/lq/devinstall/myredis/conf:/usr/local/etc/redis -v /Users/lq/devinstall/myredis/data:/data --name myredis redis:6.2.6 redis-server /usr/local/etc/redis/redis.conf</p></blockquote><h2 id="docker-redis集群安装（伪集群）" tabindex="-1">docker redis集群安装（伪集群） <a class="header-anchor" href="#docker-redis集群安装（伪集群）" aria-hidden="true">#</a></h2><hr><p><strong>启动六台redis</strong></p><div class="language-dockerfile"><pre><code>docker run -d --name redis-node1 -v /Users/liqiang/devins/redis/data/node1:/data -p 6381:6381 -p 16381:16381 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6381 
+docker run -d --name redis-node2 -v /Users/liqiang/devins/redis/data/node2:/data -p 6382:6382 -p 16382:16382 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6382 
+docker run -d --name redis-node3 -v /Users/liqiang/devins/redis/data/node3:/data -p 6383:6383 -p 16383:16383 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6383 
+docker run -d --name redis-node4 -v /Users/liqiang/devins/redis/data/node4:/data -p 6384:6384 -p 16384:16384 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6384 
+docker run -d --name redis-node5 -v /Users/liqiang/devins/redis/data/node5:/data -p 6385:6385 -p 16385:16385 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6385 
+docker run -d --name redis-node6 -v /Users/liqiang/devins/redis/data/node6:/data -p 6386:6386 -p 16386:16386 redis:6.2.6 --cluster-enabled yes --appendonly yes --port 6386 
+</code></pre></div><p>集群关联 注意：进入docker容器后才能执行以下命令，且注意自己的真实IP地址</p><div class="language-dockerfile"><pre><code>redis-cli --cluster create 192.168.0.120:6381 192.168.0.120:6382 192.168.0.120:6383 192.168.0.120:6384 192.168.0.120:6385 192.168.0.120:6386 --cluster-replicas 1
+</code></pre></div><p>--cluster-replicas 1表示每个master创建一个slave节点 <img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1642344498422-c54f41d2-65eb-4f5b-8dfd-dfba71486d07.png#clientId=u770d0cbd-2984-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=907&amp;id=ubb38487b&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=1814&amp;originWidth=1172&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=1077855&amp;status=done&amp;style=none&amp;taskId=udb7414cc-8e5e-4a71-b35d-debd7972f62&amp;title=&amp;width=586" alt="image.png"></p><p>查看集群信息</p><div class="language-dockerfile"><pre><code>cluster info
+</code></pre></div><p><img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1642490303533-2d59bc96-dcbe-46c1-a07a-d4893acca2d8.png#clientId=ua11cf2b8-2d2c-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=305&amp;id=ua1a523a5&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=610&amp;originWidth=784&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=282354&amp;status=done&amp;style=none&amp;taskId=ucfcd7a2f-0c2b-4123-9172-2c95b42488b&amp;title=&amp;width=392" alt="image.png"></p><p>查看集群节点情况</p><div class="language-dockerfile"><pre><code>cluster nodes
+</code></pre></div><p><img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1642490337594-05550568-aa0a-4114-b6c3-3ce391176b58.png#clientId=ua11cf2b8-2d2c-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=130&amp;id=u4b65d431&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=260&amp;originWidth=2492&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=385098&amp;status=done&amp;style=none&amp;taskId=u65b27f1f-b60a-4eb5-8d20-706a815d51f&amp;title=&amp;width=1246" alt="image.png"><strong>使用客户端连接redis时，请使用redis-cli -p 6381 -c</strong><strong>加入-c参数，优化路由</strong></p><p>查看集群详细信息</p><div class="language-dockerfile"><pre><code>redis-cli --cluster check 192.168.0.120:6381
+</code></pre></div><p><img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1642491878425-0eb02be6-5cfd-412c-b878-eb9cdac58d9d.png#clientId=ua11cf2b8-2d2c-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=517&amp;id=u46d0ffc8&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=1034&amp;originWidth=1256&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=729144&amp;status=done&amp;style=none&amp;taskId=u022f5d52-0f1a-42ce-aad2-4ae63d82581&amp;title=&amp;width=628" alt="image.png"></p><p><strong>集群扩容</strong> 将新节点加入集群</p><div class="language-dockerfile"><pre><code>redis-cli --cluster add-node ip地址:6387 ip地址:6381
+</code></pre></div><p>6387就是将要作为master新增节点 6381就是原来集群节点里面点主节点 ​</p><p><strong>重新分派槽号</strong></p><div class="language-dockerfile"><pre><code>redis-cli --cluster reshard 192.168.0.120:6381
+</code></pre></div><p><strong>重新挂载从节点</strong></p><div class="language-dockerfile"><pre><code>redis-cli --cluster add-node 新slaveip地址:6387 新masterip地址:6381 --cluster-slave --cluster-master-id 新主机节点id
+
+redis-cli --cluster add-node 192.168.0.120:6388 192.168.0.120:6387 --cluster-slave --cluster-master-id bac9cc96b59c91d785acdbceeec6f75e71318738
+</code></pre></div><p>集群索容</p><p>先删除从机</p><div class="language-dockerfile"><pre><code>redis-cli --cluster del-node ip地址:端口 节点id
+</code></pre></div><p>重新分配槽号</p><div class="language-dockerfile"><pre><code>redis-cli --cluster reshard 192.168.0.120:6381
+</code></pre></div><p>删除主节点</p><div class="language-dockerfile"><pre><code>redis-cli --cluster del-node ip地址:端口 节点id
+</code></pre></div><p>坑1:<strong>--net hos</strong><strong>MacOS和docker网络交互，不支持host模式（--net host），需要使用默认的bridge模式（使用-p映射端口）</strong> 坑2:**Waiting for the cluster to join ** redis-cli --cluster create环节，一直卡到&quot;Waiting for the cluster to join”环节。 Redis集群中的各个节点，需要开放一个端口，同其他节点建立连接，用于接收心跳数据等操作。也就是说，redis-node1节点，开放6379端口供client连接时，同时提供16379端口(10000 + 6379)，供其他Redis节点连接。</p><p>集群初始化过程中，需要同其他Redis建立连接，进行通信。若节点间无法连接，此时会阻塞，这也就是一直阻塞到&quot;Waiting for the cluster to join&quot;环节的原因。</p><p>官方通过--net=host，指定网络类型为host，使得容器与宿主机使用同一网络，从而规避了这类问题。 当然，若不想修改容器网络类型的话，则，需要同时暴露两个端口，用于提供client和其他节点 <img src="https://cdn.nlark.com/yuque/0/2022/png/25635684/1642344952745-9fd6bfea-3693-4c02-904b-1ead46e751da.png#clientId=ua11cf2b8-2d2c-4&amp;crop=0&amp;crop=0&amp;crop=1&amp;crop=1&amp;from=paste&amp;height=249&amp;id=u966e6ca3&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=498&amp;originWidth=1848&amp;originalType=binary&amp;ratio=1&amp;rotation=0&amp;showTitle=false&amp;size=124779&amp;status=done&amp;style=none&amp;taskId=ud5460791-20c6-4072-a4a4-6501031f2d6&amp;title=&amp;width=924" alt="image.png"></p></div></div><footer class="page-footer" data-v-8fcebc32 data-v-5c96fb00><div class="edit" data-v-5c96fb00><div class="edit-link" data-v-5c96fb00 data-v-55695e90><!----></div></div><div class="updated" data-v-5c96fb00><!----></div></footer><!----><!--[--><!--]--></div></main></div><!----><!--]--></div><div class="theme-select" data-v-3eaa5914><ul data-v-3eaa5914><li class="active" data-v-3eaa5914> ☀️ </li><li class="" data-v-3eaa5914> 🌑 </li></ul></div><div class="site-footer" data-v-3eaa5914> MIT Licensed | Copyright © 2022 <a class="vitepress" href="https://github.com/airene/vitepress-blog-pure">时刻准备着</a><br> Powered by <a class="vitepress" target="_blank" href="//vitepress.vuejs.org/">VitePress</a></div><!--]--></div>
+    <script>__VP_HASH_MAP__ = JSON.parse("{\"index.md\":\"d51de7c1\",\"pages_about.md\":\"1b99d953\",\"pages_archives.md\":\"cf97536c\",\"pages_tags.md\":\"a70822a8\",\"posts_bigdecimal的使用与注意事项.md\":\"ae6e4d89\",\"posts_docker.md\":\"3c4fcaeb\",\"posts_vitepress-first.md\":\"57a5f3e4\",\"posts_yarn.md\":\"69a0febc\",\"posts_常用分布式id解决方案.md\":\"d3ce6c6f\"}")</script>
+    <script type="module" async src="/blog/assets/app.4429b66a.js"></script>
+    
+  </body>
+</html>
