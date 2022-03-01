@@ -1,6 +1,14 @@
+---
+date: 2022-03-01
+title: mac和window互传文件
+tags:
+- vitepress
+- markdown
+description: 这几天在家办公，所以我就把公司的电脑带回来了，但是发现一个问题，就是我有一个4g的文件在window里，我想传到mac，微信无法发送，查了一下说是可以用共享文件夹的方式传输。
+---
 # 前情提要
 这几天在家办公，所以我就把公司的电脑带回来了，但是发现一个问题，就是我有一个4g的文件在window里，我想传到mac，微信无法发送，查了一下说是可以用共享文件夹的方式传输。
-​
+
 
 # 具体方案
 以下是具体步骤，详细可以参考[Apple官网文档](https://support.apple.com/zh-cn/guide/mac-help/mchlp1660/12.0/mac/12.0)。
@@ -10,7 +18,7 @@
 1. 右键属性选择共享
 1. 添加一个用户，创建共享文件夹
 
-​
+
 
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1646147229469-d1cd8154-cca4-490a-8228-7e4deaef660d.png#clientId=u0adbf0b1-f8bd-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=381&id=u96330617&margin=%5Bobject%20Object%5D&name=image.png&originHeight=762&originWidth=1323&originalType=binary&ratio=1&rotation=0&showTitle=false&size=116182&status=done&style=none&taskId=u561f04bb-a440-48f9-8e11-588641ca451&title=&width=661.5)
 
