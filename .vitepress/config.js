@@ -10,9 +10,9 @@ async function config() {
         themeConfig: {
             posts: await getPosts(),
             pageSize: pageSize,
-            website: 'https://github.com/airene/vitepress-blog-pure', //copyright link
+            website: 'https://github.com/shadowLQ/blog', //copyright link
             comment: {
-                repo: 'airene/vitepress-blog-pure',
+                repo: 'shadowLQ/blog',
                 themes: 'github-light',
                 issueTerm: 'pathname'
             },
