@@ -6,7 +6,7 @@ tags:
 - markdown
 description: npm的替代工具yarn
 ---
-
+<meta name="referrer" content="no-referrer" />
 
 # 安装
 ## window
