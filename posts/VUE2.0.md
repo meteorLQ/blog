@@ -994,11 +994,9 @@ vue使用Object.defineProperty实现了data中数据的代理，通过_data进�
 > 4.生命周期函数中的this指向是vm或组件实例对象。
 
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1646559114735-15a44454-8f62-47a4-a7c6-369e180e05f4.png#clientId=u8f57a6b3-758f-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=946&id=ud36f303f&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1892&originWidth=1469&originalType=binary&ratio=1&rotation=0&showTitle=false&size=417107&status=done&style=none&taskId=uf5a8c03e-6b1b-47c4-8007-6ded3f4ec17&title=&width=734.5)
-​
 
-​
 
-​
 
-​
+
+
 
