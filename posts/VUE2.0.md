@@ -4,8 +4,9 @@ title: Vue
 tags:
 - vitepress
 - markdown
-  description: Vue是什么 一套用于构建用户界面的渐进式JavaScript框架
+description: Vue是什么 一套用于构建用户界面的渐进式JavaScript框架
 ---
+
 <meta name="referrer" content="no-referrer" />
 
 # 1.Vue是什么？

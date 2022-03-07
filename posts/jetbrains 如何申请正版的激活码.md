@@ -6,6 +6,7 @@ tags:
 - markdown
 description: 敲代码的小伙伴肯定都知道jetbrains(https://www.jetbrains.com/)这个公司，他们公司做的ide应该是业界比较出色的产品之一。但是，如果你要使用完整版的功能就需要付费，大家要有能力一定要付费使用，毕竟人家也是幸幸苦苦一行一行代码开发出来的，这里我说几个免费申请正版激活码的方式。
 ---
+
 <meta name="referrer" content="no-referrer" />
 
 # 前情提要
