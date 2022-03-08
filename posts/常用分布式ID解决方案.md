@@ -4,6 +4,7 @@ title: 常用分布式ID解决方案
 tags:
 - vitepress
 - markdown
+- 分布式
 description: 常用分布式ID解决方案
 ---
 <meta name="referrer" content="no-referrer" />
