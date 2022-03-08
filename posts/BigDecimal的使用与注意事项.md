@@ -4,6 +4,7 @@ title: BigDecimal用于高精度计算，其计算方法有加减乘除
 tags:
 - vitepress
 - markdown
+- Java
 description: BigDecimal用于高精度计算，其计算方法有加减乘除
 ---
 <meta name="referrer" content="no-referrer" />
