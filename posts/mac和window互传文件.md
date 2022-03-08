@@ -4,6 +4,8 @@ title: mac和window互传文件
 tags:
 - vitepress
 - markdown
+- mac
+- window
 description: 这几天在家办公，所以我就把公司的电脑带回来了，但是发现一个问题，就是我有一个4g的文件在window里，我想传到mac，微信无法发送，查了一下说是可以用共享文件夹的方式传输。
 ---
 <meta name="referrer" content="no-referrer" />
