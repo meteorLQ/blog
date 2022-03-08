@@ -4,6 +4,7 @@ title: Docker
 tags:
 - vitepress
 - markdown
+- docker
 description: Dokcer镜像就是一个只读的模版。镜像可以用来创建Docker容器，一个镜像可以创建很多容器。
 ---
 <meta name="referrer" content="no-referrer" />
