@@ -9,13 +9,6 @@ description: 2022年3月9日凌晨两点Apple在Apple park召开新品发布会
 ---
 <meta name="referrer" content="no-referrer" />
 
-
-
-
-
-
-
-
 2022年3月9日凌晨两点Apple在Apple park召开新品发布会，本次发布会共计约1小时，发布iPhone13、Iphone13 PRO 新配色、新款IPAD AIR、新款iPhone SE 、
 
 ![image.png](https://cdn.nlark.com/yuque/0/2022/png/25635684/1646834557156-df24c48d-7efe-4b0b-94d7-76727ce13b8e.png#clientId=u94bfd8eb-bba4-4&crop=0&crop=0&crop=1&crop=1&from=paste&height=363&id=u3714fbf4&margin=%5Bobject%20Object%5D&name=image.png&originHeight=1418&originWidth=954&originalType=binary&ratio=1&rotation=0&showTitle=false&size=780873&status=done&style=none&taskId=u802adc5c-7419-4955-a276-1624744a8d7&title=&width=244)
