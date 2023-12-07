@@ -10,7 +10,7 @@ description: 2023年9月13日凌晨两点Apple在Apple park召开新品发布会
 <meta name="referrer" content="no-referrer" />
 本次发布会发布最多 Iphone15系列 ，已经最新基于 3 纳米工艺制造的 A17PRO 芯片，遥遥领先！
 
-
+钛金属边框，肉眼可见的重来，整个机器的质感得到巨大的提升。
 
 
 
